@@ -1,0 +1,15 @@
+C:\Coding\Repository1\Test_2\Smallest_Element\bin\Debug\net6.0\Smallest_Element.exe
+C:\Coding\Repository1\Test_2\Smallest_Element\bin\Debug\net6.0\Smallest_Element.deps.json
+C:\Coding\Repository1\Test_2\Smallest_Element\bin\Debug\net6.0\Smallest_Element.runtimeconfig.json
+C:\Coding\Repository1\Test_2\Smallest_Element\bin\Debug\net6.0\Smallest_Element.dll
+C:\Coding\Repository1\Test_2\Smallest_Element\bin\Debug\net6.0\Smallest_Element.pdb
+C:\Coding\Repository1\Test_2\Smallest_Element\obj\Debug\net6.0\Smallest_Element.csproj.AssemblyReference.cache
+C:\Coding\Repository1\Test_2\Smallest_Element\obj\Debug\net6.0\Smallest_Element.GeneratedMSBuildEditorConfig.editorconfig
+C:\Coding\Repository1\Test_2\Smallest_Element\obj\Debug\net6.0\Smallest_Element.AssemblyInfoInputs.cache
+C:\Coding\Repository1\Test_2\Smallest_Element\obj\Debug\net6.0\Smallest_Element.AssemblyInfo.cs
+C:\Coding\Repository1\Test_2\Smallest_Element\obj\Debug\net6.0\Smallest_Element.csproj.CoreCompileInputs.cache
+C:\Coding\Repository1\Test_2\Smallest_Element\obj\Debug\net6.0\Smallest_Element.dll
+C:\Coding\Repository1\Test_2\Smallest_Element\obj\Debug\net6.0\refint\Smallest_Element.dll
+C:\Coding\Repository1\Test_2\Smallest_Element\obj\Debug\net6.0\Smallest_Element.pdb
+C:\Coding\Repository1\Test_2\Smallest_Element\obj\Debug\net6.0\Smallest_Element.genruntimeconfig.cache
+C:\Coding\Repository1\Test_2\Smallest_Element\obj\Debug\net6.0\ref\Smallest_Element.dll

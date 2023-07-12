@@ -1,0 +1,15 @@
+C:\Coding\Repository1\Test_2\C_To_F\C_To_F\bin\Debug\net6.0\C_To_F.exe
+C:\Coding\Repository1\Test_2\C_To_F\C_To_F\bin\Debug\net6.0\C_To_F.deps.json
+C:\Coding\Repository1\Test_2\C_To_F\C_To_F\bin\Debug\net6.0\C_To_F.runtimeconfig.json
+C:\Coding\Repository1\Test_2\C_To_F\C_To_F\bin\Debug\net6.0\C_To_F.dll
+C:\Coding\Repository1\Test_2\C_To_F\C_To_F\bin\Debug\net6.0\C_To_F.pdb
+C:\Coding\Repository1\Test_2\C_To_F\C_To_F\obj\Debug\net6.0\C_To_F.csproj.AssemblyReference.cache
+C:\Coding\Repository1\Test_2\C_To_F\C_To_F\obj\Debug\net6.0\C_To_F.GeneratedMSBuildEditorConfig.editorconfig
+C:\Coding\Repository1\Test_2\C_To_F\C_To_F\obj\Debug\net6.0\C_To_F.AssemblyInfoInputs.cache
+C:\Coding\Repository1\Test_2\C_To_F\C_To_F\obj\Debug\net6.0\C_To_F.AssemblyInfo.cs
+C:\Coding\Repository1\Test_2\C_To_F\C_To_F\obj\Debug\net6.0\C_To_F.csproj.CoreCompileInputs.cache
+C:\Coding\Repository1\Test_2\C_To_F\C_To_F\obj\Debug\net6.0\C_To_F.dll
+C:\Coding\Repository1\Test_2\C_To_F\C_To_F\obj\Debug\net6.0\refint\C_To_F.dll
+C:\Coding\Repository1\Test_2\C_To_F\C_To_F\obj\Debug\net6.0\C_To_F.pdb
+C:\Coding\Repository1\Test_2\C_To_F\C_To_F\obj\Debug\net6.0\C_To_F.genruntimeconfig.cache
+C:\Coding\Repository1\Test_2\C_To_F\C_To_F\obj\Debug\net6.0\ref\C_To_F.dll
