@@ -1,0 +1,15 @@
+C:\Coding\Repository1\Test_2\Delete_Element\Delete_Element\obj\Debug\net6.0\Delete_Element.csproj.AssemblyReference.cache
+C:\Coding\Repository1\Test_2\Delete_Element\Delete_Element\obj\Debug\net6.0\Delete_Element.GeneratedMSBuildEditorConfig.editorconfig
+C:\Coding\Repository1\Test_2\Delete_Element\Delete_Element\obj\Debug\net6.0\Delete_Element.AssemblyInfoInputs.cache
+C:\Coding\Repository1\Test_2\Delete_Element\Delete_Element\obj\Debug\net6.0\Delete_Element.AssemblyInfo.cs
+C:\Coding\Repository1\Test_2\Delete_Element\Delete_Element\obj\Debug\net6.0\Delete_Element.csproj.CoreCompileInputs.cache
+C:\Coding\Repository1\Test_2\Delete_Element\Delete_Element\bin\Debug\net6.0\Delete_Element.exe
+C:\Coding\Repository1\Test_2\Delete_Element\Delete_Element\bin\Debug\net6.0\Delete_Element.deps.json
+C:\Coding\Repository1\Test_2\Delete_Element\Delete_Element\bin\Debug\net6.0\Delete_Element.runtimeconfig.json
+C:\Coding\Repository1\Test_2\Delete_Element\Delete_Element\bin\Debug\net6.0\Delete_Element.dll
+C:\Coding\Repository1\Test_2\Delete_Element\Delete_Element\bin\Debug\net6.0\Delete_Element.pdb
+C:\Coding\Repository1\Test_2\Delete_Element\Delete_Element\obj\Debug\net6.0\Delete_Element.dll
+C:\Coding\Repository1\Test_2\Delete_Element\Delete_Element\obj\Debug\net6.0\refint\Delete_Element.dll
+C:\Coding\Repository1\Test_2\Delete_Element\Delete_Element\obj\Debug\net6.0\Delete_Element.pdb
+C:\Coding\Repository1\Test_2\Delete_Element\Delete_Element\obj\Debug\net6.0\Delete_Element.genruntimeconfig.cache
+C:\Coding\Repository1\Test_2\Delete_Element\Delete_Element\obj\Debug\net6.0\ref\Delete_Element.dll
