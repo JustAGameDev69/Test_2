@@ -1,0 +1,15 @@
+C:\Coding\Repository1\Test_2\C#_Part5\String_Position\String_Position\bin\Debug\net6.0\String_Position.exe
+C:\Coding\Repository1\Test_2\C#_Part5\String_Position\String_Position\bin\Debug\net6.0\String_Position.deps.json
+C:\Coding\Repository1\Test_2\C#_Part5\String_Position\String_Position\bin\Debug\net6.0\String_Position.runtimeconfig.json
+C:\Coding\Repository1\Test_2\C#_Part5\String_Position\String_Position\bin\Debug\net6.0\String_Position.dll
+C:\Coding\Repository1\Test_2\C#_Part5\String_Position\String_Position\bin\Debug\net6.0\String_Position.pdb
+C:\Coding\Repository1\Test_2\C#_Part5\String_Position\String_Position\obj\Debug\net6.0\String_Position.csproj.AssemblyReference.cache
+C:\Coding\Repository1\Test_2\C#_Part5\String_Position\String_Position\obj\Debug\net6.0\String_Position.GeneratedMSBuildEditorConfig.editorconfig
+C:\Coding\Repository1\Test_2\C#_Part5\String_Position\String_Position\obj\Debug\net6.0\String_Position.AssemblyInfoInputs.cache
+C:\Coding\Repository1\Test_2\C#_Part5\String_Position\String_Position\obj\Debug\net6.0\String_Position.AssemblyInfo.cs
+C:\Coding\Repository1\Test_2\C#_Part5\String_Position\String_Position\obj\Debug\net6.0\String_Position.csproj.CoreCompileInputs.cache
+C:\Coding\Repository1\Test_2\C#_Part5\String_Position\String_Position\obj\Debug\net6.0\String_Position.dll
+C:\Coding\Repository1\Test_2\C#_Part5\String_Position\String_Position\obj\Debug\net6.0\refint\String_Position.dll
+C:\Coding\Repository1\Test_2\C#_Part5\String_Position\String_Position\obj\Debug\net6.0\String_Position.pdb
+C:\Coding\Repository1\Test_2\C#_Part5\String_Position\String_Position\obj\Debug\net6.0\String_Position.genruntimeconfig.cache
+C:\Coding\Repository1\Test_2\C#_Part5\String_Position\String_Position\obj\Debug\net6.0\ref\String_Position.dll
