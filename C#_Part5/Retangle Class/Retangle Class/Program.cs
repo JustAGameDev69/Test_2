@@ -15,12 +15,12 @@ namespace Work_Hard
 
         public double getArea()
         {
-            return this.width * this.height;
+            return width * height;
         }
 
         public double GetPerimeter()
         {
-            return (this.width + this.height) / 2;
+            return (width + height) / 2;
         }
 
         public string Display()
