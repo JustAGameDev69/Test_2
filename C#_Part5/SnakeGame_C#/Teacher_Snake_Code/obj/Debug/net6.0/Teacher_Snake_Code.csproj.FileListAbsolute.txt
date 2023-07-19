@@ -1,0 +1,15 @@
+C:\Coding\Repository1\Test_2\C#_Part5\SnakeGame_C#\Teacher_Snake_Code\bin\Debug\net6.0\Teacher_Snake_Code.exe
+C:\Coding\Repository1\Test_2\C#_Part5\SnakeGame_C#\Teacher_Snake_Code\bin\Debug\net6.0\Teacher_Snake_Code.deps.json
+C:\Coding\Repository1\Test_2\C#_Part5\SnakeGame_C#\Teacher_Snake_Code\bin\Debug\net6.0\Teacher_Snake_Code.runtimeconfig.json
+C:\Coding\Repository1\Test_2\C#_Part5\SnakeGame_C#\Teacher_Snake_Code\bin\Debug\net6.0\Teacher_Snake_Code.dll
+C:\Coding\Repository1\Test_2\C#_Part5\SnakeGame_C#\Teacher_Snake_Code\bin\Debug\net6.0\Teacher_Snake_Code.pdb
+C:\Coding\Repository1\Test_2\C#_Part5\SnakeGame_C#\Teacher_Snake_Code\obj\Debug\net6.0\Teacher_Snake_Code.csproj.AssemblyReference.cache
+C:\Coding\Repository1\Test_2\C#_Part5\SnakeGame_C#\Teacher_Snake_Code\obj\Debug\net6.0\Teacher_Snake_Code.GeneratedMSBuildEditorConfig.editorconfig
+C:\Coding\Repository1\Test_2\C#_Part5\SnakeGame_C#\Teacher_Snake_Code\obj\Debug\net6.0\Teacher_Snake_Code.AssemblyInfoInputs.cache
+C:\Coding\Repository1\Test_2\C#_Part5\SnakeGame_C#\Teacher_Snake_Code\obj\Debug\net6.0\Teacher_Snake_Code.AssemblyInfo.cs
+C:\Coding\Repository1\Test_2\C#_Part5\SnakeGame_C#\Teacher_Snake_Code\obj\Debug\net6.0\Teacher_Snake_Code.csproj.CoreCompileInputs.cache
+C:\Coding\Repository1\Test_2\C#_Part5\SnakeGame_C#\Teacher_Snake_Code\obj\Debug\net6.0\Teacher_Snake_Code.dll
+C:\Coding\Repository1\Test_2\C#_Part5\SnakeGame_C#\Teacher_Snake_Code\obj\Debug\net6.0\refint\Teacher_Snake_Code.dll
+C:\Coding\Repository1\Test_2\C#_Part5\SnakeGame_C#\Teacher_Snake_Code\obj\Debug\net6.0\Teacher_Snake_Code.pdb
+C:\Coding\Repository1\Test_2\C#_Part5\SnakeGame_C#\Teacher_Snake_Code\obj\Debug\net6.0\Teacher_Snake_Code.genruntimeconfig.cache
+C:\Coding\Repository1\Test_2\C#_Part5\SnakeGame_C#\Teacher_Snake_Code\obj\Debug\net6.0\ref\Teacher_Snake_Code.dll
