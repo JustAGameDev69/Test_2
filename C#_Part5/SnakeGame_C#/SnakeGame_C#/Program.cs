@@ -1,299 +1,335 @@
 ﻿using System;
-using System.ComponentModel.Design;
-using System.Data;
-using System.Net.Http.Headers;
-using System.Runtime.CompilerServices;
-using System.Threading.Tasks.Sources;
-using static System.Formats.Asn1.AsnWriter;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net.Sockets;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 
-namespace Snake_Game
+namespace CGO_Buoi06_SnakeGame
 {
     class Program
     {
+        // Parameter
         public Random rand = new Random();
-        const int win_height = 20, win_width = 60;
-        const int panel = 10;
-        int[] snake_tail_x = new int[100];
-        int[] snake_tail_y = new int[100];
-        int fruit_pos_x, fruit_pos_y, player_point, snake_tail, snake_head_x, snake_head_y;
-        bool game_over, game_start, game_reset, is_printed, move_hor, move_ver;
-        string snake_dir, snake_predir;
         public ConsoleKeyInfo key_input = new ConsoleKeyInfo();
-        void start_Menu()
+        int player_score, snake_head_x, snake_head_y, fruit_pos_x, fruit_pos_y, snake_tail, game_Speed, boom_pos_x, boom_pos_y;
+        int[] TailX = new int[100];
+        int[] TailY = new int[100];
+        const int height = 20;
+        const int width = 60;
+        const int panel = 10;
+        bool game_over, game_reset, isprinted, move_hor, move_ver;
+        string dir, pre_dir;
+
+        //Hien thi man hinh bat dau
+        void ShowBanner()
         {
-            Console.SetWindowSize(win_height, win_width + panel);
-            Console.CursorVisible = false;
+            Console.SetWindowSize(height, width + panel); //height còn thêm thông báo panel
             Console.ForegroundColor = ConsoleColor.Green;
+            Console.CursorVisible = false;   //ẩn cỏn trỏ nháy
             Console.WriteLine("!~~~~~~> SNAKE GAME <~~~~~~!");
-            Console.ForegroundColor = ConsoleColor.DarkRed;
-            Console.WriteLine("");
+            Console.WriteLine();
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("Press any buttons to play!!!");
             Console.ForegroundColor = ConsoleColor.DarkRed;
+            Console.WriteLine();
             Console.WriteLine("Game Rule: ");
             Console.WriteLine("Use arrow keys to move the snake!");
             Console.WriteLine("You mission is try to eat food as much as you can");
             Console.WriteLine("Don't eat your-self or hit the wall okay!");
+            Console.WriteLine("Don't eat the boom '#' too!");
             Console.WriteLine("Good luck and thank for play!!!");
+            Console.WriteLine("Press P to pause/continue the game!");
+            Console.WriteLine("Press Q to quit the game!");
+            //Doi nguoi choi bam phim
 
-            key_input = Console.ReadKey();
-            if (key_input.Key == ConsoleKey.Q)
-            {
-                Environment.Exit(0);
-            }
+
+            key_input = Console.ReadKey();    //input key???
+            if (key_input.Key == ConsoleKey.Q) Environment.Exit(0);
 
         }
+        //Game start information!
         void Setup()
         {
-            snake_dir = "RIGHT"; snake_predir = ""; //Ngay khi vào game, rắn di chuyển sang phải.
-            player_point = 0;  //điểm người chơi mặc định là 0.
-            snake_tail = 0;  //Mặc định thì rắn sẽ có đầu và thêm 3 phần đuôi.
-            game_over = game_reset = is_printed = false;
-            snake_head_x = 30;      //vị trí khi bắt đầu game
-            snake_head_y = 10;      //vị trí khi bắt đầu game trục y
-            Fruit_Spawner();        //Gọi hàm này để in ra thức ăn của rắn
+            dir = "LEFT"; pre_dir = ""; //When game start, move left
+            player_score = 0; snake_tail = 0;
+            game_over = game_reset = isprinted = false;
+            snake_head_x = 30; //vi tri dau tien con ran (dam bao ko vuot qua width)
+            snake_head_y = 10; //vi tri dau tien con ran (dam bao ko vuot qua height)
+            randomQua();//sinh ngau nhien phan qua
+            Random_Boom();
         }
-
-        void Fruit_Spawner()
+        void randomQua()
         {
-            fruit_pos_x = rand.Next(1, win_width -1);
-            fruit_pos_y = rand.Next(1, win_height - 1);
+            fruit_pos_x = rand.Next(1, width - 1); //ko lay gia tri 0 va width vi BIEN
+            fruit_pos_y = rand.Next(1, height - 1);//ko lay gia tri 0 va heigth vi BIEN
         }
 
-        void Render()
+        void Random_Boom()
         {
-            Console.SetCursorPosition(0, 0);
-            for (int i = 0; i < win_height; i++)
-            {
-                for (int j = 0; j < win_width; j++)
-                {
-                    if (i == 0 || i == win_height - 1) //vien khung ben tren va duoi
-                        Console.Write("-");
-                    else if (j == 0 || j == win_width - 1) //vien khung ben trai va phai
-                        Console.Write("|");
-                    else if (fruit_pos_x == j && fruit_pos_y == i) // qua
-                    {
-                        Console.ForegroundColor = ConsoleColor.Red;
-                        Console.Write("*");
-                        Console.ForegroundColor = ConsoleColor.Green;
-                    }
-                    else if (snake_head_x == j && snake_head_y == i) // dau cua con ran
-                        Console.Write("O");
-                    else
-                    {   //than con ran
-                        is_printed = false;
-                        for (int k = 0; k < snake_tail; k++)
-                        {
-                            if (snake_tail_x[k] == j && snake_tail_y[k] == i)
-                            {
-                                Console.Write("*");
-                                is_printed = true;
-                            }
-                        }
-                        if (!is_printed) Console.Write(" "); //o trong khung hinh
-                    }
-                }
-                Console.WriteLine(); //xuong dong cuoi hang
-            }
-            //Hien thi panel thong tin
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine("Diem cua ban: " + player_point);
+            boom_pos_x = rand.Next(1, width - 1);
+            boom_pos_y = rand.Next(1, height - 1);
         }
 
+        //Screen Update
         void Update()
         {
+            if (player_score < 5) //Game speed increase per player_score
+            {
+                game_Speed = 100;
+            }
+            else if (player_score >= 5)
+            {
+                for (int i = 5; i < 20; i++)
+                {
+                    game_Speed--;
+                }
+            }
+            else if (player_score >= 20)
+            {
+                game_Speed = 60;
+            }
+
             while (!game_over)
             {
-                user_input();
-                game_logic();
+                CheckInput();
+                Logic();
                 Render();
+
                 if (game_reset) break;
-                Thread.Sleep(100);
+                Thread.Sleep(game_Speed); //Set game speed
             }
-            if (game_over)
-            {
-                player_lose();
-            }
+            if (game_over) Lose();
         }
-
-
-        void user_input()
+        //Dieu khien phim
+        void CheckInput()
         {
             while (Console.KeyAvailable)
             {
+                //CHo bam phim bat ky 
                 key_input = Console.ReadKey();
-
-                snake_predir = snake_dir;
+                //luu lai thao tac phim truoc do
+                pre_dir = dir;
                 switch (key_input.Key)
                 {
-                    case ConsoleKey.LeftArrow:
-                        snake_dir = "LEFT";
-                        break;
-                    case ConsoleKey.RightArrow:
-                        snake_dir = "RIGHT";
-                        break;
-                    case ConsoleKey.UpArrow:
-                        snake_dir = "UP";
-                        break;
-                    case ConsoleKey.DownArrow:
-                        snake_dir = "DOWN";
-                        break;
-                    case ConsoleKey.Q:
-                        Environment.Exit(0); ;
-                        break;
-                    case ConsoleKey.P:
-                        snake_dir = "STOP";
-                        break;
+                    case ConsoleKey.LeftArrow: dir = "LEFT"; break;
+                    case ConsoleKey.RightArrow: dir = "RIGHT"; break;
+                    case ConsoleKey.DownArrow: dir = "DOWN"; break;
+                    case ConsoleKey.UpArrow: dir = "UP"; break;
+
+                    case ConsoleKey.P: dir = "STOP"; break;   //play -> P (pause) -> stop
+                    case ConsoleKey.Q: Environment.Exit(0); break;
                 }
             }
         }
-
-        void game_logic()
+        //Kiem tra phim nhan dieu huong
+        void Logic()
         {
-            int pre_pos_x = snake_tail_x[0], pre_pos_y = snake_tail_y[0];
-            int curr_pos_x, curr_pos_y;
-
-            if (snake_dir != "STOP")
+            int preX = TailX[0], preY = TailY[0]; // (x,y)
+            int tempX, tempY;
+            //0 1 2 3 4 => Con rắn ăn thêm quà            //x 0 1 2 3 4 => Chen them vo mang
+            if (dir != "STOP")
             {
-                snake_tail_x[0] = snake_head_x;
-                snake_tail_y[0] = snake_head_y;
+                TailX[0] = snake_head_x; TailY[0] = snake_head_y;
 
                 for (int i = 1; i < snake_tail; i++)
                 {
-                    curr_pos_x = snake_tail_x[i];
-                    curr_pos_y = snake_tail_y[i];
-                    snake_tail_x[i] = pre_pos_x;
-                    snake_tail_y[i] = pre_pos_y;
-                    pre_pos_x = curr_pos_x;
-                    pre_pos_y = curr_pos_y;
+                    tempX = TailX[i]; tempY = TailY[i];
+                    TailX[i] = preX; TailY[i] = preY;
+                    preX = tempX; preY = tempY;
                 }
-
             }
-
-            switch (snake_dir)
+            switch (dir)
             {
-                case "LEFT":
-                    snake_head_x--;
-                    break;
-                case "RIGHT":
-                    snake_head_x++;
-                    break;
-                case "UP":
-                    snake_head_y--;
-                    break;
-                case "DOWN":
-                    snake_head_y++;
-                    break;
+                case "LEFT": snake_head_x--; break;
+                case "RIGHT": snake_head_x++; break;
+                case "UP": snake_head_y--; break;
+                case "DOWN": snake_head_y++; break;
                 case "STOP":
                     {
                         while (true)
                         {
                             Console.Clear(); //xoa cac hien thi tren man hinh
-                            Console.WriteLine("!~~~~~~> SNAKE GAME <~~~~~~!");
-                            Console.WriteLine("YOU TIRED?TAKE A BREAK!");
-                            Console.WriteLine("- Press P to continue!");
-                            Console.WriteLine("- Press R to play again!");
-                            Console.WriteLine("- Press Q to quit the game!");
+                            Console.WriteLine("===SNAKE GAME===");
+                            Console.WriteLine("GAME PAUSE!");
+                            Console.WriteLine("- Press 'P' to continue!");
+                            Console.WriteLine("- Press 'R' to play again!");
+                            Console.WriteLine("- Press 'Q' to quit the game!");
 
                             key_input = Console.ReadKey();
                             if (key_input.Key == ConsoleKey.Q) Environment.Exit(0);
                             if (key_input.Key == ConsoleKey.R)
                             {
-                                game_reset = true; 
-                                break;
+                                game_reset = true; break;
                             }
                             if (key_input.Key == ConsoleKey.P) //tiep tuc choi du lieu dang luu TailX, TailY, ....
                                 break;
                         }
                     }
-                    snake_dir = snake_predir;
-                    break;
+                    dir = pre_dir; break;
             }
-            if (snake_head_x <=0 ||snake_head_x >= win_width-1|| snake_head_y <= 0|| snake_head_y >= win_height -1)
-            {
+            //kiem tra va cham vat can 
+            if (snake_head_x <= 0 || snake_head_x >= width - 1 || snake_head_y <= 0 || snake_head_y >= height - 1)
                 game_over = true;
-            }
-            else { game_over = false; }
-
-            if (snake_head_x == fruit_pos_x && snake_head_y == fruit_pos_y)
+            else game_over = false;
+            //kiem tra diem an qua
+            if (snake_head_x == fruit_pos_x && snake_head_y == fruit_pos_y) //trung toa do
             {
-                player_point += 1;
-                snake_tail++;
-                Fruit_Spawner();
-            }
-
-            if (((snake_dir == "LEFT" && snake_predir != "UP") && (snake_dir == "LEFT" && snake_predir != "DOWN")) || ((snake_dir == "RIGHT" && snake_predir != "UP") && (snake_dir == "RIGHT" && snake_predir != "DOWN")))
-            {
-                move_hor = true;
-            }
-            else
-            {
-                move_hor = false;
-            }
-            if (((snake_dir == "UP" && snake_predir != "LEFT") && (snake_dir == "UP" && snake_predir != "RIGHT")) || ((snake_dir == "DOWN" && snake_predir != "LEFT") && (snake_dir == "DOWN" && snake_predir != "RIGHT")))
-            {
-                move_ver = true;
-            }
-            else
-            {
-                move_ver = false;
-            }
-
-            for (int i =1; i < snake_tail; i++)
-            {
-                if(snake_head_x == snake_tail_x[i] && snake_head_y == snake_tail_y[i])
+                int point_stage1 = rand.Next(1, 6);
+                int point_stage2 = rand.Next(1, 11);
+                int point_stage3 = rand.Next(1, 21);
+                if (player_score < 10)
                 {
-                    if (move_hor || move_ver)
+                    player_score += point_stage1;
+                }
+                else if (player_score >= 10 && player_score < 30)
+                {
+                    player_score += point_stage2;
+                }
+                else if (player_score >= 30)
+                {
+                    player_score += point_stage3;
+                }
+                snake_tail++;    //tang kich thuoc con rang    
+                randomQua();//khoi tao diem qua moi
+            }
+            if (snake_head_x == boom_pos_x && snake_head_y == boom_pos_y)
+            {
+                Lose();
+            }
+
+
+            //kiem tra di chuyen lien tuc
+            //kiem tra di chuyen ngang LEFT , RIGHT
+            if (((dir == "LEFT" && pre_dir != "UP") && (dir == "LEFT" && pre_dir != "DOWN")) || ((dir == "RIGHT" && pre_dir != "UP") && (dir == "RIGHT" && pre_dir != "DOWN")))
+                move_hor = true; //di chuyen lien tuc theo chieu ngang
+            else move_hor = false;
+            //kiem tra di chuyen doc UP, DOWN
+            if (((dir == "UP" && pre_dir != "LEFT") && (dir == "UP" && pre_dir != "RIGHT")) || ((dir == "DOWN" && pre_dir != "LEFT") && (dir == "DOWN" && pre_dir != "RIGHT")))
+                move_ver = true; //di chuyen lien tuc theo chieu doc
+            else move_ver = false;
+
+            //kiem tra con ran va cham than con ran
+            for (int i = 1; i < snake_tail; i++)
+            {
+                if (snake_head_x == TailX[i] && snake_head_y == TailY[i])
+                {
+                    //quay dau 180
+                    if (move_hor || move_ver) game_over = false;
+                    else game_over = true;
+                }
+                if (fruit_pos_x == TailX[i] && fruit_pos_y == TailY[i]) //qua sinh trung than con ran -> sinh lai ngau nhien qua
+                    randomQua();
+                if (boom_pos_x == TailX[i] && boom_pos_y == TailY[i]) //qua sinh trung than con ran -> sinh lai ngau nhien qua
+                    Random_Boom();
+            }
+        }
+        //Hien thi thay doi man hinh
+        void Render()
+        {
+            Console.SetCursorPosition(0, 0);
+            for (int i = 0; i < height; i++)
+            {
+                for (int j = 0; j < width; j++)
+                {
+                    if (i == 0 || i == height - 1) //Draw top and bottom wall!
                     {
-                        game_over = false;
+                        Console.ForegroundColor = ConsoleColor.DarkGray;
+                        Console.Write("-");
+                    }
+                    else if (j == 0 || j == width - 1) // Draw side wall!
+                    {
+                        Console.ForegroundColor = ConsoleColor.DarkGray;
+                        Console.Write("|");
+                    }
+                    else if (fruit_pos_x == j && fruit_pos_y == i) // qua
+                    {
+                        Random_Fruit();
+                        Console.ForegroundColor = ConsoleColor.Green;
+                    }
+                    else if (boom_pos_x == j && boom_pos_y == i)
+                    {
+                        Console.ForegroundColor= ConsoleColor.White;
+                        Console.Write("#");
+                    }
+                    else if (snake_head_x == j && snake_head_y == i)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.Write("o");
                     }
                     else
-                    {
-                        game_over = true;
+                    {   //than con ran
+                        isprinted = false;
+                        for (int k = 0; k < snake_tail; k++)
+                        {
+                            if (TailX[k] == j && TailY[k] == i)
+                            {
+                                Console.ForegroundColor = ConsoleColor.DarkRed;
+                                Console.Write("*"); //than con ran
+                                isprinted = true;
+                            }
+                        }
+                        if (!isprinted) Console.Write(" "); //o trong khung hinh
                     }
                 }
-                if (fruit_pos_x== snake_tail_x[i] && fruit_pos_y == snake_tail_y[i])
-                {
-                    Fruit_Spawner();
-                }
+                Console.WriteLine(); //xuong dong cuoi hang
             }
-
-
+            //Hien thi panel thong tin
+            Console.ForegroundColor = ConsoleColor.DarkCyan;
+            Console.WriteLine("Your score: " + player_score);
         }
-
-        void player_lose()
+        //Xy ly game thua
+        void Lose()
         {
-            Console.WriteLine("------SNAKE GAME------");
-            Console.WriteLine("Your Lose!");
-            Console.WriteLine("- Press R to play again!");
-            Console.WriteLine("- Press Q to quit the game!");
+            Console.WriteLine("!~~~~~~> SNAKE GAME <~~~~~~!");
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("You Lose!");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("- Press 'R' to play again!");
+            Console.WriteLine("- Press 'Q' to quit !");
 
             while (true)
             {
                 key_input = Console.ReadKey();
-                if (key_input.Key == ConsoleKey.Q)
+                if (key_input.Key == ConsoleKey.Q) Environment.Exit(0);
+                if (key_input.Key == ConsoleKey.R)
                 {
-                    Environment.Exit(0);
-                }
-                else if(key_input.Key == ConsoleKey.R)
-                {
-                    game_reset = true;
-                    break;
+                    game_reset = true; break;
                 }
             }
+        }
+
+        void Random_Fruit()
+        {
+            if (player_score <= 5)
+            {
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.Write("@");
+            }
+            else if (player_score > 5 && player_score < 15)
+            {
+                Console.ForegroundColor = ConsoleColor.DarkCyan;
+                Console.Write("%");
+            }
+            else if (player_score >= 15)
+            {
+                Console.ForegroundColor = ConsoleColor.DarkMagenta;
+                Console.Write("!");
+            }
+
         }
 
         static void Main(string[] args)
         {
-            Program snake_Game = new Program();
-            snake_Game.start_Menu();
+            Program snakegame = new Program();
+            snakegame.ShowBanner();
             while (true)
             {
-                snake_Game.Setup();
-                snake_Game.Update();
+                snakegame.Setup();
+                snakegame.Update();
                 Console.Clear();
             }
         }
-
     }
 }
