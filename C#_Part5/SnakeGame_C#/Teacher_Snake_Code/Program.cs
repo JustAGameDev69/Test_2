@@ -12,13 +12,13 @@ namespace CGO_Buoi06_SnakeGame
         // Parameter
         public Random rand = new Random();
         public ConsoleKeyInfo keypress = new ConsoleKeyInfo();
-        int score, headX, headY, fruitX, fruitY, nTail;
+        int score, headX, headY, fruitX, fruitY, nTail, game_Speed;
         int[] TailX = new int[100];
         int[] TailY = new int[100];
         const int height = 20;
         const int width = 60;
         const int panel = 10;
-        bool gameOver, reset, isprinted, horizontal, vertical;
+        bool game_over, reset, isprinted, horizontal, vertical;
         string dir, pre_dir;
 
         //Hien thi man hinh bat dau
@@ -27,22 +27,32 @@ namespace CGO_Buoi06_SnakeGame
             Console.SetWindowSize(width, height + panel); //height còn thêm thông báo panel
             Console.ForegroundColor = ConsoleColor.Green;
             Console.CursorVisible = false;   //ẩn cỏn trỏ nháy
-            Console.WriteLine("===SNAKE GAME===");
-            Console.WriteLine("Huong dan choi game: ");
-            Console.WriteLine("- Nhan phim bat ky de choi");
-            Console.WriteLine("- Nhan phim P de tam dung choi");
-            Console.WriteLine("- Nhan phim R de choi lai van moi");
-            Console.WriteLine("- Nhan phim Q de ngung choi");
+            Console.WriteLine("!~~~~~~> SNAKE GAME <~~~~~~!");
+            Console.WriteLine();
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("Press any buttons to play!!!");
+            Console.ForegroundColor = ConsoleColor.DarkRed;
+            Console.WriteLine();
+            Console.WriteLine("Game Rule: ");
+            Console.WriteLine("Use arrow keys to move the snake!");
+            Console.WriteLine("You mission is try to eat food as much as you can");
+            Console.WriteLine("Don't eat your-self or hit the wall okay!");
+            Console.WriteLine("Good luck and thank for play!!!");
+            Console.WriteLine("Press P to pause/continue the game!");
+            Console.WriteLine("Press Q to quit the game!");
             //Doi nguoi choi bam phim
+
+
             keypress = Console.ReadKey();    //input key???
             if (keypress.Key == ConsoleKey.Q) Environment.Exit(0);
+
         }
         //Cai dat thong so ban dau game
         void Setup()
         {
             dir = "RIGHT"; pre_dir = ""; //mac dinh di chuyen sang phai
             score = 0; nTail = 0;
-            gameOver = reset = isprinted = false;
+            game_over = reset = isprinted = false;
             headX = 30; //vi tri dau tien con ran (dam bao ko vuot qua width)
             headY = 10; //vi tri dau tien con ran (dam bao ko vuot qua height)
             randomQua();//sinh ngau nhien phan qua 
@@ -56,7 +66,23 @@ namespace CGO_Buoi06_SnakeGame
         //Cap nhat man hinh khi thao tac
         void Update()
         {
-            while (!gameOver)
+            if (score < 5)
+            {
+                game_Speed = 100;
+            }
+            else if (score >= 5)
+            {
+                for (int i = 5; i < 20; i++)
+                {
+                    game_Speed--;
+                }
+            }
+            else if (score >= 20)
+            {
+                game_Speed = 60;
+            }
+
+            while (!game_over)
             {
                 //con choi tiep, chua co chet!!!
                 CheckInput(); //cho bam phim
@@ -64,9 +90,9 @@ namespace CGO_Buoi06_SnakeGame
                 Render();     //hien thi man hinh
 
                 if (reset) break;
-                Thread.Sleep(100); //chay process trong vong 1000ml 
+                Thread.Sleep(game_Speed); //chay process trong vong 1000ml 
             }
-            if (gameOver) Lose();
+            if (game_over) Lose();
         }
         //Dieu khien phim
         void CheckInput()
@@ -118,10 +144,10 @@ namespace CGO_Buoi06_SnakeGame
                         {
                             Console.Clear(); //xoa cac hien thi tren man hinh
                             Console.WriteLine("===SNAKE GAME===");
-                            Console.WriteLine("Dang tam dung choi game!");
-                            Console.WriteLine("- Nhan phim P de tiep tuc choi");
-                            Console.WriteLine("- Nhan phim R de choi lai van moi");
-                            Console.WriteLine("- Nhan phim Q de ngung choi");
+                            Console.WriteLine("GAME PAUSE!");
+                            Console.WriteLine("- Press 'P' to continue!");
+                            Console.WriteLine("- Press 'R' to play again!");
+                            Console.WriteLine("- Press 'Q' to quit the game!");
 
                             keypress = Console.ReadKey();
                             if (keypress.Key == ConsoleKey.Q) Environment.Exit(0);
@@ -137,12 +163,26 @@ namespace CGO_Buoi06_SnakeGame
             }
             //kiem tra va cham vat can 
             if (headX <= 0 || headX >= width - 1 || headY <= 0 || headY >= height - 1)
-                gameOver = true;
-            else gameOver = false;
+                game_over = true;
+            else game_over = false;
             //kiem tra diem an qua
             if (headX == fruitX && headY == fruitY) //trung toa do
             {
-                score += 1; //tinh diem khi an qua !!!
+                int point_stage1 = rand.Next(1, 6);
+                int point_stage2 = rand.Next(1, 11);
+                int point_stage3 = rand.Next(1, 21);
+                if (score < 10)
+                {
+                    score += point_stage1;
+                }
+                else if (score >= 10 && score < 30)
+                {
+                    score += point_stage2;
+                }
+                else if (score >= 30)
+                {
+                    score += point_stage3;
+                }
                 nTail++;    //tang kich thuoc con rang    
                 randomQua();//khoi tao diem qua moi
             }
@@ -162,8 +202,8 @@ namespace CGO_Buoi06_SnakeGame
                 if (headX == TailX[i] && headY == TailY[i])
                 {
                     //quay dau 180
-                    if (horizontal || vertical) gameOver = false;
-                    else gameOver = true;
+                    if (horizontal || vertical) game_over = false;
+                    else game_over = true;
                 }
                 if (fruitX == TailX[i] && fruitY == TailY[i]) //qua sinh trung than con ran -> sinh lai ngau nhien qua
                     randomQua();
@@ -177,18 +217,26 @@ namespace CGO_Buoi06_SnakeGame
             {
                 for (int j = 0; j < width; j++)
                 {
-                    if (i == 0 || i == height - 1) //vien khung ben tren va duoi
+                    if (i == 0 || i == height - 1) //Draw top and bottom wall!
+                    {
+                        Console.ForegroundColor = ConsoleColor.DarkGray;
                         Console.Write("-");
-                    else if (j == 0 || j == width - 1) //vien khung ben trai va phai
+                    }
+                    else if (j == 0 || j == width - 1) // Draw side wall!
+                    {
+                        Console.ForegroundColor = ConsoleColor.DarkGray;
                         Console.Write("|");
+                    }
                     else if (fruitX == j && fruitY == i) // qua
                     {
-                        Console.ForegroundColor = ConsoleColor.Red;
-                        Console.Write("*");
+                        Random_Fruit();
                         Console.ForegroundColor = ConsoleColor.Green;
                     }
-                    else if (headX == j && headY == i) // dau cua con ran
-                        Console.Write("+");
+                    else if (headX == j && headY == i)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.Write("o");
+                    }
                     else
                     {   //than con ran
                         isprinted = false;
@@ -196,7 +244,8 @@ namespace CGO_Buoi06_SnakeGame
                         {
                             if (TailX[k] == j && TailY[k] == i)
                             {
-                                Console.Write("-"); //than con ran
+                                Console.ForegroundColor = ConsoleColor.DarkRed;
+                                Console.Write("*"); //than con ran
                                 isprinted = true;
                             }
                         }
@@ -206,16 +255,18 @@ namespace CGO_Buoi06_SnakeGame
                 Console.WriteLine(); //xuong dong cuoi hang
             }
             //Hien thi panel thong tin
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine("Diem cua ban: " + score);
+            Console.ForegroundColor = ConsoleColor.DarkCyan;
+            Console.WriteLine("Your score: " + score);
         }
         //Xy ly game thua
         void Lose()
         {
-            Console.WriteLine("===SNAKE GAME===");
-            Console.WriteLine("Ban da thua!");
-            Console.WriteLine("- Nhan phim R de choi lai van moi");
-            Console.WriteLine("- Nhan phim Q de ngung choi");
+            Console.WriteLine("!~~~~~~> SNAKE GAME <~~~~~~!");
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("You Lose!");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("- Press 'R' to play again!");
+            Console.WriteLine("- Press 'Q' to quit !");
 
             while (true)
             {
@@ -227,6 +278,27 @@ namespace CGO_Buoi06_SnakeGame
                 }
             }
         }
+
+        void Random_Fruit()
+        {
+            if (score <= 5)
+            {
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.Write("@");
+            }
+            else if (score > 5 && score < 15)
+            {
+                Console.ForegroundColor = ConsoleColor.DarkCyan;
+                Console.Write("%");
+            }
+            else if(score >= 15)
+            {
+                Console.ForegroundColor = ConsoleColor.DarkMagenta;
+                Console.Write("!");
+            }
+
+        }
+
         static void Main(string[] args)
         {
             Program snakegame = new Program();

@@ -78,7 +78,7 @@ namespace Snake_Game
                         Console.ForegroundColor = ConsoleColor.Green;
                     }
                     else if (snake_head_x == j && snake_head_y == i) // dau cua con ran
-                        Console.Write("+");
+                        Console.Write("O");
                     else
                     {   //than con ran
                         is_printed = false;
@@ -86,7 +86,7 @@ namespace Snake_Game
                         {
                             if (snake_tail_x[k] == j && snake_tail_y[k] == i)
                             {
-                                Console.Write("-"); //than con ran
+                                Console.Write("*");
                                 is_printed = true;
                             }
                         }
