@@ -103,9 +103,7 @@ namespace Project_1
         {
             while (Console.KeyAvailable)
             {
-                //CHo bam phim bat ky 
                 keypress = Console.ReadKey();
-                //luu lai thao tac phim truoc do
                 pre_dir = dir;
                 switch (keypress.Key)
                 {
@@ -119,12 +117,12 @@ namespace Project_1
                 }
             }
         }
-        //Kiem tra phim nhan dieu huong
+
         void Logic()
         {
             int preX = TailX[0], preY = TailY[0]; // (x,y)
             int tempX, tempY;
-            //0 1 2 3 4 => Con rắn ăn thêm quà            //x 0 1 2 3 4 => Chen them vo mang
+
             if (dir != "STOP")
             {
                 TailX[0] = headX; TailY[0] = headY;
@@ -146,7 +144,7 @@ namespace Project_1
                     {
                         while (true)
                         {
-                            Console.Clear(); //xoa cac hien thi tren man hinh
+                            Console.Clear(); 
                             Console.WriteLine("===SNAKE GAME===");
                             Console.WriteLine("GAME PAUSE!");
                             Console.WriteLine("- Press 'P' to continue!");
@@ -159,18 +157,18 @@ namespace Project_1
                             {
                                 game_reset = true; break;
                             }
-                            if (keypress.Key == ConsoleKey.P) //tiep tuc choi du lieu dang luu TailX, TailY, ....
+                            if (keypress.Key == ConsoleKey.P)
                                 break;
                         }
                     }
                     dir = pre_dir; break;
             }
-            //kiem tra va cham vat can 
+         
             if (headX <= 0 || headX >= width - 1 || headY <= 0 || headY >= height - 1)
                 game_over = true;
             else game_over = false;
-            //kiem tra diem an qua
-            if (headX == fruitX && headY == fruitY) //trung toa do
+           
+            if (headX == fruitX && headY == fruitY)
             {
                 int point_stage1 = rand.Next(1, 6);
                 int point_stage2 = rand.Next(1, 11);
@@ -187,42 +185,38 @@ namespace Project_1
                 {
                     score += point_stage3;
                 }
-                nTail++;    //tang kich thuoc con rang    
-                Random_Fruit_Pos();//khoi tao diem qua moi
+                nTail++;    //snake tail ++
+                Random_Fruit_Pos(); //Spawn new fruit
             }
             if (headX == boom_pos_x && headY == boom_pos_y)
             {
                 Lose();
             }
 
-
-            //kiem tra di chuyen lien tuc
-            //kiem tra di chuyen ngang LEFT , RIGHT
+            //Side Move Check
             if (((dir == "LEFT" && pre_dir != "UP") && (dir == "LEFT" && pre_dir != "DOWN")) || ((dir == "RIGHT" && pre_dir != "UP") && (dir == "RIGHT" && pre_dir != "DOWN")))
-                horizontal = true; //di chuyen lien tuc theo chieu ngang
+                horizontal = true; 
             else horizontal = false;
-            //kiem tra di chuyen doc UP, DOWN
+            //MOVE UP AND DOWN CHECK
             if (((dir == "UP" && pre_dir != "LEFT") && (dir == "UP" && pre_dir != "RIGHT")) || ((dir == "DOWN" && pre_dir != "LEFT") && (dir == "DOWN" && pre_dir != "RIGHT")))
-                vertical = true; //di chuyen lien tuc theo chieu doc
+                vertical = true; 
             else vertical = false;
-
-            //kiem tra con ran va cham than con ran
+            
             for (int i = 1; i < nTail; i++)
             {
                 if (headX == TailX[i] && headY == TailY[i])
                 {
-                    //quay dau 180
                     if (horizontal || vertical) game_over = false;
                     else game_over = true;
                 }
-                if (fruitX == TailX[i] && fruitY == TailY[i]) //qua sinh trung than con ran -> sinh lai ngau nhien qua
+                if (fruitX == TailX[i] && fruitY == TailY[i]) //fruit_pos == snake_pos => respawn fruit
                     Random_Fruit_Pos();
-                if (boom_pos_x == TailX[i] && boom_pos_y == TailY[i]) //qua sinh trung than con ran -> sinh lai ngau nhien qua
+                if (boom_pos_x == TailX[i] && boom_pos_y == TailY[i]) //boom_pos == snake_pos => respawn bom
                     Random_Boom();
             }
         }
-        //Hien thi thay doi man hinh
-        void Render()
+      
+        void Render() //Draw
         {
             Console.SetCursorPosition(0, 0);
             for (int i = 0; i < height; i++)
@@ -239,12 +233,12 @@ namespace Project_1
                         Console.ForegroundColor = ConsoleColor.DarkGray;
                         Console.Write("|");
                     }
-                    else if (fruitX == j && fruitY == i) // qua
+                    else if (fruitX == j && fruitY == i) // Draw fruit
                     {
                         Random_Fruit();
                         Console.ForegroundColor = ConsoleColor.Green;
                     }
-                    else if (boom_pos_x == j && boom_pos_y == i)
+                    else if (boom_pos_x == j && boom_pos_y == i) //Draw Bom
                     {
                         Console.Write("#");
                     }
@@ -254,28 +248,28 @@ namespace Project_1
                         Console.Write("o");
                     }
                     else
-                    {   //than con ran
+                    {   //Snake tail
                         is_printed = false;
                         for (int k = 0; k < nTail; k++)
                         {
                             if (TailX[k] == j && TailY[k] == i)
                             {
                                 Console.ForegroundColor = ConsoleColor.DarkRed;
-                                Console.Write("*"); //than con ran
+                                Console.Write("*"); //Draw Snake Tail
                                 is_printed = true;
                             }
                         }
-                        if (!is_printed) Console.Write(" "); //o trong khung hinh
+                        if (!is_printed) Console.Write(" ");
                     }
                 }
-                Console.WriteLine(); //xuong dong cuoi hang
+                Console.WriteLine();
             }
-            //Hien thi panel thong tin
+            //Information panel
             Console.ForegroundColor = ConsoleColor.DarkCyan;
             Console.WriteLine("Your score: " + score);
         }
-        //Xy ly game thua
-        void Lose()
+        
+        void Lose() //Hit wall or bom
         {
             Console.WriteLine("!~~~~~~> SNAKE GAME <~~~~~~!");
             Console.ForegroundColor = ConsoleColor.Yellow;
@@ -295,7 +289,7 @@ namespace Project_1
             }
         }
 
-        void Random_Fruit()
+        void Random_Fruit() //Change fruit color 
         {
             if (score <= 5)
             {
