@@ -173,9 +173,9 @@ namespace Project_1
            
             if (headX == fruitX && headY == fruitY)
             {
-                int point_stage1 = rand.Next(1, 6);
-                int point_stage2 = rand.Next(1, 11);
-                int point_stage3 = rand.Next(1, 21);
+                int point_stage1 = rand.Next(1, 4);
+                int point_stage2 = rand.Next(1, 8);
+                int point_stage3 = rand.Next(1, 11);
                 if (player_score < 10)
                 {
                     player_score += point_stage1;
@@ -243,11 +243,12 @@ namespace Project_1
                     }
                     else if (boom_pos_x == j && boom_pos_y == i) //Draw Bom
                     {
+                        Console.ForegroundColor= ConsoleColor.Gray;
                         Console.Write("#");
                     }
                     else if (headX == j && headY == i)
                     {
-                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.ForegroundColor = ConsoleColor.Green;
                         Console.Write("o");
                     }
                     else
@@ -257,7 +258,7 @@ namespace Project_1
                         {
                             if (TailX[k] == j && TailY[k] == i)
                             {
-                                Console.ForegroundColor = ConsoleColor.DarkRed;
+                                Console.ForegroundColor = ConsoleColor.DarkGreen;
                                 Console.Write("*"); //Draw Snake Tail
                                 is_printed = true;
                             }
@@ -325,12 +326,12 @@ namespace Project_1
         {
             if (player_score <= 10)
             {
-                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.ForegroundColor = ConsoleColor.DarkRed;
                 Console.Write("@");
             }
             else if (player_score > 10 && player_score < 30)
             {
-                Console.ForegroundColor = ConsoleColor.DarkCyan;
+                Console.ForegroundColor = ConsoleColor.DarkYellow;
                 Console.Write("%");
             }
             else if(player_score >= 30)

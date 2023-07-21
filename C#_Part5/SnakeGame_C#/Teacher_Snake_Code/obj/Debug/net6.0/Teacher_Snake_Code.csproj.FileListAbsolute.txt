@@ -13,3 +13,5 @@ C:\Coding\Repository1\Test_2\C#_Part5\SnakeGame_C#\Teacher_Snake_Code\obj\Debug\
 C:\Coding\Repository1\Test_2\C#_Part5\SnakeGame_C#\Teacher_Snake_Code\obj\Debug\net6.0\Teacher_Snake_Code.pdb
 C:\Coding\Repository1\Test_2\C#_Part5\SnakeGame_C#\Teacher_Snake_Code\obj\Debug\net6.0\Teacher_Snake_Code.genruntimeconfig.cache
 C:\Coding\Repository1\Test_2\C#_Part5\SnakeGame_C#\Teacher_Snake_Code\obj\Debug\net6.0\ref\Teacher_Snake_Code.dll
+C:\Coding\Repository1\Test_2\C#_Part5\SnakeGame_C#\Teacher_Snake_Code\obj\Debug\net6.0\Teacher_Snake_Code.Resource1.resources
+C:\Coding\Repository1\Test_2\C#_Part5\SnakeGame_C#\Teacher_Snake_Code\obj\Debug\net6.0\Teacher_Snake_Code.csproj.GenerateResource.cache
