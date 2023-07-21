@@ -98,7 +98,7 @@ namespace Project_1
             }
             if (game_over) Game_Lose();
         }
-        //Dieu khien phim
+        //Controller
         void CheckInput()
         {
             while (Console.KeyAvailable)
