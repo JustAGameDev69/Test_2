@@ -12,7 +12,7 @@ namespace Project_1
     {
         public Random rand = new Random();
         public ConsoleKeyInfo keypress = new ConsoleKeyInfo();
-        int score, headX, headY, fruitX, fruitY, nTail, game_Speed, boom_pos_x, boom_pos_y;
+        int score, headX, headY, fruitX, fruitY, nTail, game_Speed, boom_pos_x, boom_pos_y, highest_score;
         int[] TailX = new int[100];
         int[] TailY = new int[100];
         const int height = 20;
@@ -36,6 +36,7 @@ namespace Project_1
             Console.WriteLine("Use arrow keys to move the snake!");
             Console.WriteLine("You mission is try to eat food as much as you can");
             Console.WriteLine("Don't eat your-self or hit the wall okay!");
+            Console.WriteLine("Don't eat the bom (#) too!");
             Console.WriteLine("Good luck and thank for play!!!");
             Console.WriteLine("Press P to pause/continue the game!");
             Console.WriteLine("Press Q to quit the game!");
@@ -89,9 +90,11 @@ namespace Project_1
 
             while (!game_over)
             {
+                Highest_Score();
                 CheckInput(); 
                 Logic();      
-                Render();     
+                Render();
+                
 
                 if (game_reset) break;
                 Thread.Sleep(game_Speed); //Set game speed
@@ -267,16 +270,45 @@ namespace Project_1
             //Information panel
             Console.ForegroundColor = ConsoleColor.DarkCyan;
             Console.WriteLine("Your score: " + score);
+            Console.WriteLine();
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine("Highest score: " + highest_score);
+
         }
         
+        void Highest_Score()
+        {
+            highest_score = 0;
+            string save_file = "Highest_Score.txt";
+
+            if (File.Exists(save_file))
+            {
+                string score_string = File.ReadAllText(save_file);
+                int.TryParse(score_string, out highest_score);
+            }
+            else
+            {
+                File.Create(save_file).Close();
+                File.WriteAllText(save_file, highest_score.ToString());
+            }
+
+            if (score > highest_score)
+            {
+                File.WriteAllText(save_file, score.ToString());
+                highest_score = score;
+            }
+        }
+
         void Lose() //Hit wall or bom
         {
+            Console.ForegroundColor= ConsoleColor.Green;
             Console.WriteLine("!~~~~~~> SNAKE GAME <~~~~~~!");
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("You Lose!");
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("- Press 'R' to play again!");
             Console.WriteLine("- Press 'Q' to quit !");
+
 
             while (true)
             {
