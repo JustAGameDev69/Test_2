@@ -78,10 +78,7 @@ namespace Project_1
             }
             else if (player_score >= 5 && player_score <20)
             {
-                for (int i = 5; i <= player_score; i++)
-                {
-                    game_Speed--;
-                }
+                game_Speed = 80;
             }
             else if (player_score >= 20)
             {
