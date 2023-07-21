@@ -37,7 +37,7 @@ namespace Project_1
             Console.WriteLine("You mission is try to eat food as much as you can");
             Console.WriteLine("Don't eat your-self or hit the wall okay!");
             Console.WriteLine("Don't eat the bom (#) too!");
-            Console.WriteLine("Good luck and thank for play!!!");
+            Console.WriteLine("Good luck and thanks for playing!!!");
             Console.WriteLine("Press P to pause/continue the game!");
             Console.WriteLine("Press Q to quit the game!");
 
