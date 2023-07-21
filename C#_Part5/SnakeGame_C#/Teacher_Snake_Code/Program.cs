@@ -23,12 +23,12 @@ namespace Project_1
 
         void StartScreen() //Console Start Screen
         {
-            Console.SetWindowSize(width, height + panel); //height + panel
+            Console.SetWindowSize(width, height + panel); //height = game height + panel
             Console.ForegroundColor = ConsoleColor.Green;
-            Console.CursorVisible = false; 
+            Console.CursorVisible = false; //Invisible cursor
             Console.WriteLine("!~~~~~~> SNAKE GAME <~~~~~~!");
             Console.WriteLine();
-            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.ForegroundColor = ConsoleColor.Yellow; //Change color
             Console.WriteLine("Press any buttons to play!!!");
             Console.ForegroundColor = ConsoleColor.DarkRed;
             Console.WriteLine();
@@ -43,7 +43,7 @@ namespace Project_1
 
 
             keypress = Console.ReadKey();    //input key
-            if (keypress.Key == ConsoleKey.Q) Environment.Exit(0);
+            if (keypress.Key == ConsoleKey.Q) Environment.Exit(0); //Quit game function
 
         }
         //Game start information!
@@ -59,13 +59,13 @@ namespace Project_1
         }
         void Random_Fruit_Pos()
         {
-            fruitX = rand.Next(1, width - 1);
+            fruitX = rand.Next(1, width - 1); //Fruit not spawn in wall
             fruitY = rand.Next(1, height - 1);
         }
 
         void Random_Boom()
         {
-            boom_pos_x = rand.Next(1, width - 1);
+            boom_pos_x = rand.Next(1, width - 1); //Bom also!
             boom_pos_y = rand.Next(1, height - 1);
         }
 
@@ -123,24 +123,29 @@ namespace Project_1
             int preX = TailX[0], preY = TailY[0]; // (x,y)
             int tempX, tempY;
 
-            if (dir != "STOP")
+            if (dir != "STOP") //Tail[1] follow Tail[0] direction
             {
                 TailX[0] = headX; TailY[0] = headY;
 
                 for (int i = 1; i < nTail; i++)
                 {
-                    tempX = TailX[i]; tempY = TailY[i];
-                    TailX[i] = preX; TailY[i] = preY;
-                    preX = tempX; preY = tempY;
+                    tempX = TailX[i]; 
+                    tempY = TailY[i];
+
+                    TailX[i] = preX; 
+                    TailY[i] = preY;
+
+                    preX = tempX; 
+                    preY = tempY;
                 }
             }
-            switch (dir)
+            switch (dir) //On press change snake head position
             {
                 case "LEFT": headX--; break;
                 case "RIGHT": headX++; break;
                 case "UP": headY--; break;
                 case "DOWN": headY++; break;
-                case "STOP":
+                case "STOP": //When press 'P'
                     {
                         while (true)
                         {
@@ -164,11 +169,11 @@ namespace Project_1
                     dir = pre_dir; break;
             }
          
-            if (headX <= 0 || headX >= width - 1 || headY <= 0 || headY >= height - 1)
+            if (headX <= 0 || headX >= width - 1 || headY <= 0 || headY >= height - 1) //Snake die because hit the wall
                 game_over = true;
             else game_over = false;
            
-            if (headX == fruitX && headY == fruitY)
+            if (headX == fruitX && headY == fruitY) //Snake head collide with food
             {
                 int point_stage1 = rand.Next(1, 4);
                 int point_stage2 = rand.Next(1, 8);
@@ -188,7 +193,7 @@ namespace Project_1
                 nTail++;    //snake tail ++
                 Random_Fruit_Pos(); //Spawn new fruit
             }
-            if (headX == boom_pos_x && headY == boom_pos_y)
+            if (headX == boom_pos_x && headY == boom_pos_y) //snake head collide with bom
             {
                 Game_Lose();
             }
@@ -204,14 +209,14 @@ namespace Project_1
             
             for (int i = 1; i < nTail; i++)
             {
-                if (headX == TailX[i] && headY == TailY[i])
+                if (headX == TailX[i] && headY == TailY[i]) //turn around 180'
                 {
                     if (horizontal || vertical) game_over = false;
                     else game_over = true;
                 }
                 if (fruitX == TailX[i] && fruitY == TailY[i]) //fruit_pos == snake_pos => respawn fruit
                     Random_Fruit_Pos();
-                if (boom_pos_x == TailX[i] && boom_pos_y == TailY[i]) //boom_pos == snake_pos => respawn bom
+                if ((boom_pos_x == TailX[i] && boom_pos_y == TailY[i] )||( boom_pos_x == fruitX && boom_pos_y == fruitY)) //boom_pos == snake_pos or boom_pos == fruit_pos => respawn bom
                     Random_Boom();
             }
         }
@@ -243,7 +248,7 @@ namespace Project_1
                         Console.ForegroundColor= ConsoleColor.Gray;
                         Console.Write("#");
                     }
-                    else if (headX == j && headY == i)
+                    else if (headX == j && headY == i) //Draw snake head
                     {
                         Console.ForegroundColor = ConsoleColor.Green;
                         Console.Write("o");
@@ -279,30 +284,30 @@ namespace Project_1
             highest_score = 0;
             string save_file = "Highest_Score.txt";
 
-            if (File.Exists(save_file))
+            if (File.Exists(save_file)) //Check if file exist
             {
                 string score_string = File.ReadAllText(save_file);
                 int.TryParse(score_string, out highest_score);
             }
             else
             {
-                File.Create(save_file).Close();
+                File.Create(save_file).Close(); //If not, create new
                 File.WriteAllText(save_file, highest_score.ToString());
             }
 
-            if (player_score > highest_score)
+            if (player_score > highest_score) //Save higher score
             {
                 File.WriteAllText(save_file, player_score.ToString());
                 highest_score = player_score;
             }
         }
 
-        void Game_Lose() //Hit wall or bom
+        void Game_Lose() //When snake die:
         {
             Console.ForegroundColor= ConsoleColor.Green;
             Console.WriteLine("!~~~~~~> SNAKE GAME <~~~~~~!");
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("You Lose!");
+            Console.WriteLine("         You Lose!          ");
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("- Press 'R' to play again!");
             Console.WriteLine("- Press 'Q' to quit !");
