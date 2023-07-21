@@ -12,7 +12,7 @@ namespace Project_1
     {
         public Random rand = new Random();
         public ConsoleKeyInfo keypress = new ConsoleKeyInfo();
-        int score, headX, headY, fruitX, fruitY, nTail, game_Speed, boom_pos_x, boom_pos_y, highest_score;
+        int player_score, headX, headY, fruitX, fruitY, nTail, game_Speed, boom_pos_x, boom_pos_y, highest_score;
         int[] TailX = new int[100];
         int[] TailY = new int[100];
         const int height = 20;
@@ -21,7 +21,7 @@ namespace Project_1
         bool game_over, game_reset, is_printed, horizontal, vertical;
         string dir, pre_dir;
 
-        void ShowBanner() //Console Start Screen
+        void StartScreen() //Console Start Screen
         {
             Console.SetWindowSize(width, height + panel); //height + panel
             Console.ForegroundColor = ConsoleColor.Green;
@@ -50,7 +50,7 @@ namespace Project_1
         void Setup()
         {
             dir = "LEFT"; pre_dir = ""; //When game start, move left
-            score = 0; nTail = 2;
+            player_score = 0; nTail = 2;
             game_over = game_reset = is_printed = false;
             headX = 30;
             headY = 10;
@@ -72,18 +72,18 @@ namespace Project_1
         //Screen Update
         void Update()
         {
-            if (score < 5) //Game speed increase per player_score
+            if (player_score < 5) //Game speed increase per player_score
             {
                 game_Speed = 100;
             }
-            else if (score >= 5)
+            else if (player_score >= 5)
             {
                 for (int i = 5; i < 20; i++)
                 {
                     game_Speed--;
                 }
             }
-            else if (score >= 20)
+            else if (player_score >= 20)
             {
                 game_Speed = 60;
             }
@@ -91,15 +91,15 @@ namespace Project_1
             while (!game_over)
             {
                 Highest_Score();
-                CheckInput(); 
-                Logic();      
+                CheckInput();
+                Game_Logic();      
                 Render();
                 
 
                 if (game_reset) break;
                 Thread.Sleep(game_Speed); //Set game speed
             }
-            if (game_over) Lose();
+            if (game_over) Game_Lose();
         }
         //Dieu khien phim
         void CheckInput()
@@ -121,7 +121,7 @@ namespace Project_1
             }
         }
 
-        void Logic()
+        void Game_Logic()
         {
             int preX = TailX[0], preY = TailY[0]; // (x,y)
             int tempX, tempY;
@@ -176,24 +176,24 @@ namespace Project_1
                 int point_stage1 = rand.Next(1, 6);
                 int point_stage2 = rand.Next(1, 11);
                 int point_stage3 = rand.Next(1, 21);
-                if (score < 10)
+                if (player_score < 10)
                 {
-                    score += point_stage1;
+                    player_score += point_stage1;
                 }
-                else if (score >= 10 && score < 30)
+                else if (player_score >= 10 && player_score < 30)
                 {
-                    score += point_stage2;
+                    player_score += point_stage2;
                 }
-                else if (score >= 30)
+                else if (player_score >= 30)
                 {
-                    score += point_stage3;
+                    player_score += point_stage3;
                 }
                 nTail++;    //snake tail ++
                 Random_Fruit_Pos(); //Spawn new fruit
             }
             if (headX == boom_pos_x && headY == boom_pos_y)
             {
-                Lose();
+                Game_Lose();
             }
 
             //Side Move Check
@@ -269,7 +269,7 @@ namespace Project_1
             }
             //Information panel
             Console.ForegroundColor = ConsoleColor.DarkCyan;
-            Console.WriteLine("Your score: " + score);
+            Console.WriteLine("Your score: " + player_score);
             Console.WriteLine();
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine("Highest score: " + highest_score);
@@ -292,14 +292,14 @@ namespace Project_1
                 File.WriteAllText(save_file, highest_score.ToString());
             }
 
-            if (score > highest_score)
+            if (player_score > highest_score)
             {
-                File.WriteAllText(save_file, score.ToString());
-                highest_score = score;
+                File.WriteAllText(save_file, player_score.ToString());
+                highest_score = player_score;
             }
         }
 
-        void Lose() //Hit wall or bom
+        void Game_Lose() //Hit wall or bom
         {
             Console.ForegroundColor= ConsoleColor.Green;
             Console.WriteLine("!~~~~~~> SNAKE GAME <~~~~~~!");
@@ -323,17 +323,17 @@ namespace Project_1
 
         void Random_Fruit() //Change fruit color 
         {
-            if (score <= 5)
+            if (player_score <= 10)
             {
                 Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.Write("@");
             }
-            else if (score > 5 && score < 15)
+            else if (player_score > 10 && player_score < 30)
             {
                 Console.ForegroundColor = ConsoleColor.DarkCyan;
                 Console.Write("%");
             }
-            else if(score >= 15)
+            else if(player_score >= 30)
             {
                 Console.ForegroundColor = ConsoleColor.DarkMagenta;
                 Console.Write("!");
@@ -344,7 +344,7 @@ namespace Project_1
         static void Main(string[] args)
         {
             Program snakegame = new Program();
-            snakegame.ShowBanner();
+            snakegame.StartScreen();
             while (true)
             {
                 snakegame.Setup();
